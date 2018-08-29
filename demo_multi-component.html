@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>React - Template</title>
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script type="text/babel">
+            var Komponent = React.createClass({
+                render: function(){
+                    return (<div>
+                                <h3>This is first element</h3>
+                                <p>This is the second element</p>
+                            </div>);
+                }
+            });
+
+            ReactDOM.render(<Komponent />,document.getElementById('container'));
+        </script>
+
+    </body>
+</html>
+<!--
+    TRICKS:
+    If you have multiple elements you need to wrap it inside 1 parent element.
+    eg:
+    <div>
+        <h1>First Element</h1>
+        <span>Second Element</span>
+    </div>
+-->

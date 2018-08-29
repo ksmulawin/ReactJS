@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>React - Template</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+    </head>
+    <body>
+
+        <div class="container" id="container">
+        </div>
+
+        <script type="text/babel">
+            var Comment = React.createClass({
+                getInitialState: function(){
+                    return {editing : false}
+                },
+                edit: function(){
+                    this.setState({editing:true});
+                },
+                save: function(){
+                    this.props.updateCommentText(this.refs.newText.value,this.props.index);
+                    this.setState({editing:false});
+                },
+
+                renderNormal: function(){
+                    return (
+                            <div className="col-sm-4">
+                                <div className="card">
+                                  <div className="card-body">
+                                    <h4 className="card-title">{this.props.children}</h4>
+                                    <button onClick={this.edit} className="btn btn-outline-success mr-1" >Edit</button>
+                                    <button onClick={this.remove} className="btn btn-outline-danger">Remove</button>
+                                  </div>
+                                </div>
+                            </div>
+                        );
+                },
+                renderForm: function(){
+                    return (
+                            <div className="col-sm-4">
+                                <div className="card">
+                                  <div className="card-body">
+                                    <div className="form-group">
+                                        <textarea className="form-control" ref="newText" defaultValue={this.props.children}></textarea>
+                                    </div>
+                                    <button onClick={this.save} className="btn btn-outline-success mr-1" >Save</button>
+                                  </div>
+                                </div>
+                            </div>
+                        );
+                },
+
+                remove: function(){
+                      this.props.removeFromBoard(this.props.index);
+                },
+                render: function(){
+                    if(this.state.editing){
+                        return this.renderForm();
+                    }else{
+                        return this.renderNormal();
+                    }
+               }
+            });
+
+             var Board = React.createClass({
+                getInitialState: function(){
+                    return {
+                        comments : [
+                            'Monkey D. Luffy',
+                            'Ainz Ooal Gown',
+                            'Nura Rikuo'
+                        ]
+                    }
+                },
+                removeComment: function(i){
+                    var arr = this.state.comments;
+                    arr.splice(i,1);
+                    this.setState({comments:arr});
+                },
+                updateComment: function(newText,i){
+                    var arr = this.state.comments;
+                    arr[i] = newText;
+                     this.setState({comments:arr});
+                },
+                eachComment: function(str,i){
+                    return (<Comment key={i} index={i} updateCommentText={this.updateComment} removeFromBoard={this.removeComment}>
+                                {str}
+                            </Comment>);
+                },
+
+                render : function(){
+                    return (
+                            <div className="row my-5">
+                            {
+                                this.state.comments.map(this.eachComment)
+                            }
+                            </div>
+                    )
+                }
+            });
+
+            ReactDOM.render(<Board />,document.getElementById('container'));
+        </script>
+
+    </body>
+</html>
+

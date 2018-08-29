@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>React - Template</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+    </head>
+    <body>
+
+        <div class="container" id="container">
+        </div>
+
+        <script type="text/babel">
+            var Checkbox = React.createClass({
+
+                getInitialState: function(){
+                    return {checked:true}
+                },
+                handleChecked: function(){
+
+                    this.setState({checked: !this.state.checked });
+                },
+                render: function(){
+                    var msg;
+                    if(this.state.checked){
+                        msg = 'checked';
+                    }else{
+                        msg = 'unchecked';
+                    }
+
+                    return (
+                                <div className="col-lg-6">
+                                    <div className="form-group">
+                                        <input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked}/>
+                                        <h3>Checkbox is {msg}</h3>
+                                    </div>
+                                </div>
+                    );
+               }
+            });
+
+            ReactDOM.render(<div className="row my-5">
+                               <Checkbox />
+                            </div>,document.getElementById('container'));
+        </script>
+
+    </body>
+</html>

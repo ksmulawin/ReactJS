@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>React - Template</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+    </head>
+    <body>
+
+        <div class="container" id="container">
+        </div>
+
+        <script type="text/javascript">
+            "use strict";
+
+            var Comment = React.createClass({
+                displayName: "Comment",
+
+                getInitialState: function getInitialState() {
+                    return { editing: false };
+                },
+                edit: function edit() {
+                    this.setState({ editing: true });
+                },
+                save: function save() {
+                    this.props.updateCommentText(this.refs.newText.value, this.props.index);
+                    this.setState({ editing: false });
+                },
+
+                renderNormal: function renderNormal() {
+                    return React.createElement(
+                        "div",
+                        { className: "col-sm-4" },
+                        React.createElement(
+                            "div",
+                            { className: "card" },
+                            React.createElement(
+                                "div",
+                                { className: "card-body" },
+                                React.createElement(
+                                    "h4",
+                                    { className: "card-title" },
+                                    this.props.children
+                                ),
+                                React.createElement(
+                                    "button",
+                                    { onClick: this.edit, className: "btn btn-outline-success mr-1" },
+                                    "Edit"
+                                ),
+                                React.createElement(
+                                    "button",
+                                    { onClick: this.remove, className: "btn btn-outline-danger" },
+                                    "Remove"
+                                )
+                            )
+                        )
+                    );
+                },
+                renderForm: function renderForm() {
+                    return React.createElement(
+                        "div",
+                        { className: "col-sm-4" },
+                        React.createElement(
+                            "div",
+                            { className: "card" },
+                            React.createElement(
+                                "div",
+                                { className: "card-body" },
+                                React.createElement(
+                                    "div",
+                                    { className: "form-group" },
+                                    React.createElement("textarea", { className: "form-control", ref: "newText", defaultValue: this.props.children })
+                                ),
+                                React.createElement(
+                                    "button",
+                                    { onClick: this.save, className: "btn btn-outline-success mr-1" },
+                                    "Save"
+                                )
+                            )
+                        )
+                    );
+                },
+
+                remove: function remove() {
+                    this.props.removeFromBoard(this.props.index);
+                },
+                render: function render() {
+                    if (this.state.editing) {
+                        return this.renderForm();
+                    } else {
+                        return this.renderNormal();
+                    }
+                }
+            });
+
+            var Board = React.createClass({
+                displayName: "Board",
+
+                getInitialState: function getInitialState() {
+                    return {
+                        comments: ['Monkey D. Luffy', 'Ainz Ooal Gown', 'Nura Rikuo']
+                    };
+                },
+                removeComment: function removeComment(i) {
+                    var arr = this.state.comments;
+                    arr.splice(i, 1);
+                    this.setState({ comments: arr });
+                },
+                updateComment: function updateComment(newText, i) {
+                    var arr = this.state.comments;
+                    arr[i] = newText;
+                    this.setState({ comments: arr });
+                },
+                eachComment: function eachComment(str, i) {
+                    return React.createElement(
+                        Comment,
+                        { key: i, index: i, updateCommentText: this.updateComment, removeFromBoard: this.removeComment },
+                        str
+                    );
+                },
+
+                render: function render() {
+                    return React.createElement(
+                        "div",
+                        { className: "row my-5" },
+                        this.state.comments.map(this.eachComment)
+                    );
+                }
+            });
+            
+            ReactDOM.render(React.createElement(Board, null), document.getElementById('container'));
+        </script>
+
+    </body>
+</html>
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>React - Template</title>
+        <script src="js/react.min.js"></script>
+        <script src="js/react-dom.min.js"></script>
+        <script src="js/browser.min.js"></script>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script type="text/babel">
+            var Anime = React.createClass({
+               render: function(){
+                    return (
+                                <div>
+                                    <h1>{this.props.title}</h1>
+                                    <h3>{this.props.genre}</h3>
+                                </div>
+                    );
+               }
+            });
+
+            ReactDOM.render(<div>
+                                <Anime title="One piece" genre="Adventure"/>
+                                <Anime title="Overlord" genre="Sci-fi"/>
+                                <Anime title="Boruto" genre="Action/Adventure"/>
+                            </div>,document.getElementById('container'));
+        </script>
+
+    </body>
+</html>
